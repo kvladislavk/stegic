@@ -509,6 +509,9 @@ window = TkinterDnD.Tk()
 window.title("Stegic")
 
 menubar = Menu(window)
+# test git
+# Попробуем как оно работает вообще
+
 window.config(menu= menubar)
 
 programMenu = Menu(menubar, tearoff=0)
