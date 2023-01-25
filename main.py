@@ -17,6 +17,7 @@ def change_for_predpokaz(width, height):
     coordinates = [0, 0]
     box_width = 400
     box_height = 400
+    var = 2
 
     while ((height > box_height) or (width > box_width)):
 
@@ -133,6 +134,7 @@ def openFile(file_):
         im = Image.open(filepath)
         # im_orig = Image.open(filepath, mode='r')
         # print(im_orig.show())
+        ##
         im.save('img/original.png')
 
         # img_pokaz = img_pokaz.resize(img_width / 2, img_height / 2)
