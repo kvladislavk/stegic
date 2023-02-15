@@ -1,4 +1,5 @@
 import tkinter
+from textwrap import wrap
 from tkinter import ttk, filedialog, messagebox
 from tkinter import *
 from PIL import Image, ImageTk
@@ -67,6 +68,66 @@ def ValidEntry():
         print("Что-то не так, возможно длина меньше 44 ")
         return False
 
+
+def openFilebyButton():
+
+    filepath = filedialog.askopenfilename(
+                                          title="Choose original image",
+                                          filetypes=(("JPG", "*.JPG"),
+                                                     ("all files", "*.*"))
+                                          )
+    # file = open(filepath, 'r')
+    im = Image.open(filepath)
+    # im_orig = Image.open(filepath, mode='r')
+    # print(im_orig.show())
+    ##
+    im.save('img/original.png')
+
+    # img_pokaz = img_pokaz.resize(img_width / 2, img_height / 2)
+
+    img_for_pokaz = Image.open('img/original.png')  # создаем картинку которую потом будем вставлять в окно предпоказа
+
+    width = img_for_pokaz.width
+    height = img_for_pokaz.height
+
+    coord = [0, 0]
+    coord = change_for_predpokaz(width, height)
+
+    width = coord[0]
+    height = coord[1]
+
+    # width = round(img_for_pokaz.width/2)
+    # height = round(img_for_pokaz.height/2)
+
+    rez = img_for_pokaz.resize((width, height))
+    rez.save('img/for_pokaz.png')
+    rez.close()
+    img_for_pokaz.close()
+
+    # img_width = img_pokaz.width()
+    # img_height = img_pokaz.height()
+    #
+    # print(img_width)
+    # print(img_height)
+    #
+
+    img_pokaz = ImageTk.PhotoImage(Image.open('img/for_pokaz.png'))
+
+    # lb2_tab1.configure(image=img_pokaz)
+    # lb2_tab1.image=img_pokaz
+
+    predpokaz_tab1.configure(image=img_pokaz)
+    predpokaz_tab1.image = img_pokaz
+
+    print('App get the image and save')
+
+    im.close()
+
+    button1_tab1.config(state=ACTIVE)
+    # активируем кнопку для зашифровки текста после того, как выберем картинку в которую будем зашифровывать
+
+    # print(file.read())
+    # file.close()
 
 def openFile(file_):
     if (file_ != None):
@@ -184,6 +245,64 @@ def openFile(file_):
         # file.close()
 
 
+def openPhotoWithSecretbyButton():
+
+    filepath = filedialog.askopenfilename(
+        title="Choose original image",
+        filetypes=(("PNG", "*.png"),
+                   ("all files", "*.*"))
+    )
+
+    # file = open(filepath, 'r')
+    im = Image.open(filepath)
+    # im_orig = Image.open(filepath, mode='r')
+    # print(im_orig.show())
+    im.save('img/secret_to_decode.png')
+
+    # img_pokaz = img_pokaz.resize(img_width / 2, img_height / 2)
+
+    img_for_pokaz_tab2 = Image.open(
+        'img/secret_to_decode.png')  # создаем картинку которую потом будем вставлять в окно предпоказа
+
+    width = img_for_pokaz_tab2.width
+    height = img_for_pokaz_tab2.height
+
+    coord = [0, 0]
+    coord = change_for_predpokaz(width, height)
+
+    width = coord[0]
+    height = coord[1]
+
+    # width = round(img_for_pokaz.width/2)
+    # height = round(img_for_pokaz.height/2)
+
+    rez = img_for_pokaz_tab2.resize((width, height))
+    rez.save('img/for_pokaz_tab2.png')
+    rez.close()
+    img_for_pokaz_tab2.close()
+
+    # img_width = img_pokaz.width()
+    # img_height = img_pokaz.height()
+    #
+    # print(img_width)
+    # print(img_height)
+    #
+
+    img_pokaz = ImageTk.PhotoImage(Image.open('img/for_pokaz_tab2.png'))
+
+    # lb2_tab1.configure(image=img_pokaz)
+    # lb2_tab1.image=img_pokaz
+
+    predpokaz_tab2.configure(image=img_pokaz)
+    predpokaz_tab2.image = img_pokaz
+
+    print('App get the image with secret and save')
+
+    im.close()
+
+    button1_tab2.config(state=ACTIVE)
+
+
 def openPhotoWithSecret(file_):
     if (file_ != None):
         filepath = file_
@@ -238,73 +357,72 @@ def openPhotoWithSecret(file_):
 
         button1_tab2.config(state=ACTIVE)
 
-    else:
-        filepath = filedialog.askopenfilename(
-            title="Choose original image",
-            filetypes=(("PNG", "*.png"),
-                       ("all files", "*.*"))
-        )
-
-        # file = open(filepath, 'r')
-        im = Image.open(filepath)
-        # im_orig = Image.open(filepath, mode='r')
-        # print(im_orig.show())
-        im.save('img/secret_to_decode.png')
-
-        # img_pokaz = img_pokaz.resize(img_width / 2, img_height / 2)
-
-        img_for_pokaz_tab2 = Image.open(
-            'img/secret_to_decode.png')  # создаем картинку которую потом будем вставлять в окно предпоказа
-
-        width = img_for_pokaz_tab2.width
-        height = img_for_pokaz_tab2.height
-
-        coord = [0, 0]
-        coord = change_for_predpokaz(width, height)
-
-        width = coord[0]
-        height = coord[1]
-
-        # width = round(img_for_pokaz.width/2)
-        # height = round(img_for_pokaz.height/2)
-
-        rez = img_for_pokaz_tab2.resize((width, height))
-        rez.save('img/for_pokaz_tab2.png')
-        rez.close()
-        img_for_pokaz_tab2.close()
-
-        # img_width = img_pokaz.width()
-        # img_height = img_pokaz.height()
-        #
-        # print(img_width)
-        # print(img_height)
-        #
-
-        img_pokaz = ImageTk.PhotoImage(Image.open('img/for_pokaz_tab2.png'))
-
-        # lb2_tab1.configure(image=img_pokaz)
-        # lb2_tab1.image=img_pokaz
-
-        predpokaz_tab2.configure(image=img_pokaz)
-        predpokaz_tab2.image = img_pokaz
-
-        print('App get the image with secret and save')
-
-        im.close()
-
-        button1_tab2.config(state=ACTIVE)
-
-
-
-
-
-
+    # else:
+    #     filepath = filedialog.askopenfilename(
+    #         title="Choose original image",
+    #         filetypes=(("PNG", "*.png"),
+    #                    ("all files", "*.*"))
+    #     )
+    #
+    #     # file = open(filepath, 'r')
+    #     im = Image.open(filepath)
+    #     # im_orig = Image.open(filepath, mode='r')
+    #     # print(im_orig.show())
+    #     im.save('img/secret_to_decode.png')
+    #
+    #     # img_pokaz = img_pokaz.resize(img_width / 2, img_height / 2)
+    #
+    #     img_for_pokaz_tab2 = Image.open(
+    #         'img/secret_to_decode.png')  # создаем картинку которую потом будем вставлять в окно предпоказа
+    #
+    #     width = img_for_pokaz_tab2.width
+    #     height = img_for_pokaz_tab2.height
+    #
+    #     coord = [0, 0]
+    #     coord = change_for_predpokaz(width, height)
+    #
+    #     width = coord[0]
+    #     height = coord[1]
+    #
+    #     # width = round(img_for_pokaz.width/2)
+    #     # height = round(img_for_pokaz.height/2)
+    #
+    #     rez = img_for_pokaz_tab2.resize((width, height))
+    #     rez.save('img/for_pokaz_tab2.png')
+    #     rez.close()
+    #     img_for_pokaz_tab2.close()
+    #
+    #     # img_width = img_pokaz.width()
+    #     # img_height = img_pokaz.height()
+    #     #
+    #     # print(img_width)
+    #     # print(img_height)
+    #     #
+    #
+    #     img_pokaz = ImageTk.PhotoImage(Image.open('img/for_pokaz_tab2.png'))
+    #
+    #     # lb2_tab1.configure(image=img_pokaz)
+    #     # lb2_tab1.image=img_pokaz
+    #
+    #     predpokaz_tab2.configure(image=img_pokaz)
+    #     predpokaz_tab2.image = img_pokaz
+    #
+    #     print('App get the image with secret and save')
+    #
+    #     im.close()
+    #
+    #     button1_tab2.config(state=ACTIVE)
 
 
 
 def decode_Secret():
     ResultArea.delete("1.0", END)
-    key_for_decode = str(key_entry.get())
+
+    if len(str(key_entry.get())) < 44:
+        key_for_decode = ConvertToCode(str(key_entry.get()))
+    else:
+        key_for_decode = str(key_entry.get())
+
     message = open('text/key_for_decode.key', 'w', encoding='UTF-8')
     message = message.write(key_for_decode)
 
@@ -431,14 +549,76 @@ def InputYourOwnPassword():
         input_your_key_entry.config(state=DISABLED)
 
 def AboutApp():
-    print("About program ")
+    print("Про додаток")
     about_window = Toplevel()
     about_window.geometry("400x300")
-    about_window.title("About app")
+    about_window.title("Про додаток")
 
-    title = Label(about_window,text="MyApp")
+
+    title = Label(about_window,text="Stegic")
+    title.config(font = ("Arial",15))
+
+    text_str = "Цей додаток створено для шифрування інформації в фотографії"
+
 # Stegamage? Stemage? Stegic?
     title.pack()
+    text = Text(about_window, font=("Arial", 15),
+                height=300,
+                width=300,
+                padx=20,
+                pady=20)
+    text.insert("1.0",text_str)
+    text.pack()
+
+def HowItUse():
+    print("Інструкція")
+    about_window = Toplevel()
+    about_window.geometry("400x300")
+    about_window.title("Інструкція")
+
+    title = Label(about_window, text="Stegic")
+    title.config(font=("Arial", 15))
+
+    guide = "Інструкція\n\n" \
+               "1) Перше вікно потрібно для того, аби зашифрувати повідомлення в необхідне для вас зображення.\n" \
+            ""
+
+    title.pack()
+    text_guide = Text(about_window, font=("Arial", 15),
+                height=300,
+                width=300,
+                padx=20,
+                pady=20)
+    text_guide.insert("1.0", guide)
+    text_guide.pack()
+
+def HowItUse2():
+    print("Інструкція")
+    about_window = Toplevel()
+    about_window.geometry("400x300")
+    about_window.title("Інструкція")
+
+    title = Label(about_window, text="Stegic")
+    title.config(font=("Arial", 15))
+
+    guide = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " \
+           "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " \
+           "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo " \
+           "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse " \
+           "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non " \
+           "proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    title.pack()
+
+    text_guide = Text(about_window, font=("Arial", 15),
+                height=300,
+                width=300,
+                padx=20,
+                pady=20,
+                wrap=guide)
+    text_guide.insert("1.0", guide)
+    text_guide.pack()
+    about_window.ma
 
 def drop_to_encrypt(event):
 
@@ -515,10 +695,11 @@ menubar = Menu(window)
 # Попробуем как оно работает вообще
 
 window.config(menu= menubar)
-
 programMenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Program", menu = programMenu)
-programMenu.add_cascade(label="About App", command=AboutApp)
+menubar.add_cascade(label="Додаток", menu = programMenu)
+programMenu.add_command(label="Про додаток", command=AboutApp)
+programMenu.add_command(label="Інструкція",command=HowItUse)
+programMenu.add_command(label="Інструкція2",command=HowItUse2)
 
 
 
@@ -527,8 +708,11 @@ notebook = ttk.Notebook(window, )  # widget that manages a collection of window/
 tab1 = Frame(notebook)  # new frame for tab 1
 tab2 = Frame(notebook)  # new frame for tab 2
 
-notebook.add(tab1, text="Tab 1, зашифровка")
-notebook.add(tab2, text="Tab 2, декодирование ")
+# tab1.configure(bg="black")
+# tab2.configure(bg="black")
+
+notebook.add(tab1, text="Tab 1, Шифрування")
+notebook.add(tab2, text="Tab 2, Декодування")
 notebook.pack(expand=True, fill="both")  # expand = expand to fill any space not otherwise used
 # fill = fill space on X and y axis
 
@@ -552,7 +736,7 @@ entry_file = tkinter.StringVar()
 
 # lb1_tab1 = Label(tab1, text="Insert your original image: ", height=3, width=20).grid(row=0, column=0)
 
-choose_im_tab1 = Button(tab1, text="Choose an image", height=3, width=20, command=openFile).grid(row=1, column=0)
+choose_im_tab1 = Button(tab1, text="Choose an image", height=3, width=20, command=openFilebyButton).grid(row=1, column=0)
 
 # Сделать так, чтобы после выбора изображения, оно отображалось в окошке
 
@@ -614,7 +798,7 @@ original_photo_decode = PhotoImage(file='img/Skype100.png',
                                    )
 
 lb1_tab2 = Label(tab2, text="Insert image to decode: ", height=3, width=20).grid(row=0, column=0)
-choose_im_tab2 = Button(tab2, text="Choose an image", height=3, width=20, command=openPhotoWithSecret).grid(row=1,
+choose_im_tab2 = Button(tab2, text="Choose an image", height=3, width=20, command=openPhotoWithSecretbyButton).grid(row=1,
                                                                                                             column=0)
 
 predpokaz_tab2 = Label(tab2, image=original_photo_decode, height=400, width=400,textvariable=entry_file_to_decrypt)
