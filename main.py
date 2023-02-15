@@ -591,6 +591,7 @@ def HowItUse():
                 pady=20)
     text_guide.insert("1.0", guide)
     text_guide.pack()
+    # worlk
 
 def HowItUse2():
     print("Інструкція")
